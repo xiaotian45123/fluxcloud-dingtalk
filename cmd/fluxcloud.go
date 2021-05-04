@@ -68,14 +68,11 @@ func main() {
 	log.SetFlags(0)
 
 	config := &config.DefaultConfig{}
-	fmt.Println("config 111")
 	formatter, err := formatters.NewDefaultFormatter(config)
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("config 2222")
 	apiConfig := apis.NewAPIConfig(formatter, initExporter(config), config)
-	fmt.Println("config 333")
 	apis.HandleWebsocket(apiConfig)
 	apis.HandleV6(apiConfig)
 	log.Fatal(apiConfig.Listen(config.Optional("listen_address", ":3031")))
