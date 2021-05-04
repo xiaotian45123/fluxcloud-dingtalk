@@ -49,7 +49,6 @@ func initExporter(config config.Config) (exporter []exporters.Exporter) {
 			exporter = append(exporter, slack)
 		}
 		if v == "dingtalk" {
-			fmt.Println("环境变量")
 			dingtalk, err := exporters.NewDingTalk(config)
 			if err != nil {
 				log.Fatal(err)
