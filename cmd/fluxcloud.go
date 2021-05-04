@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"strings"
 
@@ -47,6 +48,14 @@ func initExporter(config config.Config) (exporter []exporters.Exporter) {
 			}
 			exporter = append(exporter, slack)
 		}
+		if v == "dingtalk" {
+			fmt.Println("环境变量")
+			dingtalk, err := exporters.NewDingTalk(config)
+			if err != nil {
+				log.Fatal(err)
+			}
+			exporter = append(exporter, dingtalk)
+		}
 	}
 
 	for _, e := range exporter {
@@ -60,14 +69,14 @@ func main() {
 	log.SetFlags(0)
 
 	config := &config.DefaultConfig{}
-
+	fmt.Println("config 111")
 	formatter, err := formatters.NewDefaultFormatter(config)
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	fmt.Println("config 2222")
 	apiConfig := apis.NewAPIConfig(formatter, initExporter(config), config)
-
+	fmt.Println("config 333")
 	apis.HandleWebsocket(apiConfig)
 	apis.HandleV6(apiConfig)
 	log.Fatal(apiConfig.Listen(config.Optional("listen_address", ":3031")))
