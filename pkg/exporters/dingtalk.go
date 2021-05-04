@@ -79,7 +79,6 @@ func (d *DingTalk) Send(c context.Context, client *http.Client, message msg.Mess
 		params.Set("timestamp", strconv.FormatInt(t, 10))
 		params.Set("sign", d.sign(t))
 	}
-	fmt.Println("send 1111")
 
 	dingMessage := d.NewDingTalkMessage(message)
 	if dingMessage == nil {
@@ -125,7 +124,6 @@ func (d *DingTalk) FormatLink(link string, name string) string {
 
 // NewDingTalkMessage Convert a flux event into a MS Teams message
 func (d *DingTalk) NewDingTalkMessage(message msg.Message) *DingTalkMessage {
-	fmt.Println("send 22222")
 	autoReleaseMessage := new(DingTalkMessage)
 	var msgType string = message.Event.Metadata.Type()
 	var msgMetadta event.EventMetadata = message.Event.Metadata
@@ -188,12 +186,10 @@ func (d *DingTalk) NewDingTalkMessage(message msg.Message) *DingTalkMessage {
 				fmt.Println("sync错误信息@所有人")
 				autoReleaseMessage.At.IsAtAll = true
 			} else {
-
+				// 校验输入的手机号里面是否是混合[123 all]这种格式错误
 				if strings.Contains(strings.ToUpper(d.AtNum), "ALL") {
 					fmt.Println("AtNum配置错误,all只能单独使用 ")
-				} else if !strings.Contains(
-					strings.ToUpper(d.AtNum), "ALL",
-				) && nonTrimSpaceAtNum != "" && strings.Contains(nonTrimSpaceAtNum, "  ") {
+				} else if !strings.Contains(strings.ToUpper(d.AtNum), "ALL",) && nonTrimSpaceAtNum != "" && strings.Contains(nonTrimSpaceAtNum, "  ") {
 					fmt.Println("手机号之间只能单个空格隔开")
 				} else if !strings.Contains(
 					strings.ToUpper(d.AtNum), "ALL",
@@ -213,7 +209,6 @@ func (d *DingTalk) NewDingTalkMessage(message msg.Message) *DingTalkMessage {
 			return autoReleaseMessage
 		}
 	}
-
 	return nil
 }
 

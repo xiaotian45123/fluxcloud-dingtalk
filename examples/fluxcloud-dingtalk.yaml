@@ -1,0 +1,47 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: fluxcloud
+spec:
+  selector:
+    name: fluxcloud
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3032
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fluxcloud
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: fluxcloud
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        name: fluxcloud
+    spec:
+      securityContext:
+        runAsUser: 999
+      containers:
+      - name: fluxcloud
+        image: justinbarrick/fluxcloud:v0.3.9
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3032
+        env:
+        - name: EXPORTER_TYPE
+          value: "dingtalk"
+        - name: DINGTALK_ACCESS
+          value: "6e4c1c3decf9d8fd3e0a8a78a42aacdf05c88e2364f975641cb0fc4ac2b0ef58"
+        - name: DINGTALK_SECRET
+          value: "SEC00975280cec29296ee83f830e014fbb8231f8c5516abd7163fcd3b4fb85d9cb2"
+        - name: DINGTALK_AT_NUM
+          value: "123 456"
+          # "all"," ","123"

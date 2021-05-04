@@ -2,7 +2,6 @@ package apis
 
 import (
 	"bytes"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -24,10 +23,8 @@ func HandleV6(config APIConfig) (err error) {
 			http.Error(w, err.Error(), 400)
 			return
 		}
-		fmt.Println("v64444")
 		var sendError bool
 		for _, exporter := range config.Exporter {
-			fmt.Println("v65111")
 			message := config.Formatter.FormatEvent(event, exporter)
 			if message.Title == "" {
 				w.WriteHeader(200)
