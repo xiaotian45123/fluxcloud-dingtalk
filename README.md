@@ -18,6 +18,9 @@ To deploy independently, see `examples/fluxcloud.yaml`.
 
 Set the following environment variables in your chosen deployment:
 
+* `DINGTALK_ACCESS` 钉钉自定义机器人ACCESS.
+* `DINGTALK_SECRET` 钉钉自定义机器人SECRET.
+* `DINGTALK_AT_NUM` 钉钉自定义机器人错误信息@人员格式："12313"或者"123 123" 或者 "all".
 * `SLACK_URL`: the Slack [webhook URL](https://api.slack.com/incoming-webhooks) to use.
 * `SLACK_USERNAME`: the Slack username to use when sending messages.
 * `SLACK_TOKEN` (optional): legacy Slack API token to use.
@@ -26,8 +29,9 @@ Set the following environment variables in your chosen deployment:
 * `MSTEAMS_URL`: the Microsoft Teams [webhook URL](https://docs.microsoft.com/en-us/outlook/actionable-messages/send-via-connectors#sending-actionable-messages-via-office-365-connectors) to use
 * `GITHUB_URL`: the URL to the Github repository that Flux uses, used for Slack links.
 * `WEBHOOK_URL`: if the exporter is "webhook", then the URL to use for the webhook.
-* `EXPORTER_TYPE` (optional): The types of exporter to use in comma delimited form. (Ex: `slack,webhook`) (Choices: slack, msteams, webhook, Default: slack)
+* `EXPORTER_TYPE` (optional): The types of exporter to use in comma delimited form. (Ex: `dingtalk,slack,webhook`) (Choices: slack, msteams, webhook, Default: slack)
 * `JAEGER_ENDPOINT` (optional): endpoint to report Jaeger traces to.
+
 
 And then apply the configuration:
 
